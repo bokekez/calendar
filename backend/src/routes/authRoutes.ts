@@ -91,4 +91,9 @@ router.get('/me', async (req, res) => {
   }
 });
 
+router.post('/logout', (_req, res) => {
+  res.clearCookie('token');
+  res.json({ ok: true });
+});
+
 export default router;

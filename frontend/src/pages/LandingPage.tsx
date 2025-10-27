@@ -1,15 +1,28 @@
-import { Container, Button } from "react-bootstrap";
+import React from 'react';
+import { Container, Button, Row, Col, Card } from 'react-bootstrap';
 
 export default function LandingPage() {
   const handleLogin = () => {
-    window.location.href = "http://localhost:4000/auth/google";
+    window.location.href = 'http://localhost:4000/auth/google';
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Button onClick={handleLogin} size="lg">
-        Authenticate with Google
-      </Button>
+      <Row className="w-100">
+        <Col md={{ span: 6, offset: 3 }}>
+          <Card className="text-center shadow-sm">
+            <Card.Body>
+              <Card.Title className="mb-3">Speck</Card.Title>
+              <Card.Text className="mb-4">
+                Please authenticate with Google to connect your calendar and continue.
+              </Card.Text>
+              <Button onClick={handleLogin} variant="primary" size="lg">
+                Authenticate with Google
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 }
