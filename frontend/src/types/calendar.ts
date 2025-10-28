@@ -22,5 +22,5 @@ export type CalendarGroups = {
 export type NewEventRequest = {
   summary: string;
   start: string; // ISO string
-  end: string;   // ISO string
+  end: string; // ISO string
 };

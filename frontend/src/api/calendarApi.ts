@@ -24,8 +24,8 @@ export async function refreshCalendarEvents(days: number) {
 export async function createCalendarEvent(data: NewEventRequest) {
   const url = `${API}/calendar/create`;
   return fetchWithCredentials<{ event: CalendarEvent }>(url, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 }

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import dayjs from 'dayjs';
-import { createCalendarEvent } from '../api/calendarApi';
-import { NewEventRequest } from '../types/calendar';
+import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import dayjs from "dayjs";
+import { createCalendarEvent } from "../api/calendarApi";
+import { NewEventRequest } from "../types/calendar";
 
 type Props = {
   show: boolean;
@@ -10,10 +10,16 @@ type Props = {
   onCreated?: () => void;
 };
 
-export default function ScheduleEventDialog({ show, onClose, onCreated }: Props) {
-  const [summary, setSummary] = useState('');
-  const [start, setStart] = useState(dayjs().format('YYYY-MM-DDTHH:mm'));
-  const [end, setEnd] = useState(dayjs().add(1, 'hour').format('YYYY-MM-DDTHH:mm'));
+export default function ScheduleEventDialog({
+  show,
+  onClose,
+  onCreated,
+}: Props) {
+  const [summary, setSummary] = useState("");
+  const [start, setStart] = useState(dayjs().format("YYYY-MM-DDTHH:mm"));
+  const [end, setEnd] = useState(
+    dayjs().add(1, "hour").format("YYYY-MM-DDTHH:mm"),
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,12 +28,12 @@ export default function ScheduleEventDialog({ show, onClose, onCreated }: Props)
     setError(null);
 
     if (!summary) {
-      setError('Please enter a title for the event.');
+      setError("Please enter a title for the event.");
       return;
     }
 
     if (new Date(start) >= new Date(end)) {
-      setError('End must be after start.');
+      setError("End must be after start.");
       return;
     }
 
@@ -40,11 +46,11 @@ export default function ScheduleEventDialog({ show, onClose, onCreated }: Props)
     setLoading(true);
     try {
       await createCalendarEvent(payload);
-      setSummary('');
+      setSummary("");
       onCreated?.();
       onClose();
     } catch (err: any) {
-      setError(err.message || 'Failed to create event');
+      setError(err.message || "Failed to create event");
     } finally {
       setLoading(false);
     }
@@ -60,7 +66,10 @@ export default function ScheduleEventDialog({ show, onClose, onCreated }: Props)
           {error && <div className="text-danger mb-2">{error}</div>}
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
-            <Form.Control value={summary} onChange={(e) => setSummary(e.target.value)} />
+            <Form.Control
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -82,9 +91,11 @@ export default function ScheduleEventDialog({ show, onClose, onCreated }: Props)
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onClose} disabled={loading}>Cancel</Button>
+          <Button variant="secondary" onClick={onClose} disabled={loading}>
+            Cancel
+          </Button>
           <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? 'Scheduling…' : 'Schedule'}
+            {loading ? "Scheduling…" : "Schedule"}
           </Button>
         </Modal.Footer>
       </Form>

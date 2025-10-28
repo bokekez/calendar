@@ -1,18 +1,16 @@
-version: '3.9'
+version: "3.9"
 
 services:
   postgres:
     image: postgres:15
     container_name: speck_postgres
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: speck
+      POSTGRES_DB: speckdb
     ports:
-      - "5432:5432"
+      - "55432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -25,13 +23,20 @@ services:
     depends_on:
       - postgres
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "4000:4000"
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
-    command: sh -c "npm install && npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: speck_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
 
 volumes:
   pgdata:
