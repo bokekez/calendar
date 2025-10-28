@@ -18,3 +18,9 @@ export type CalendarGroups = {
   label: string;
   events: CalendarEvent[];
 };
+
+export type NewEventRequest = {
+  summary: string;
+  start: string; // ISO string
+  end: string;   // ISO string
+};

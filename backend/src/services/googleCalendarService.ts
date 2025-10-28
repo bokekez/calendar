@@ -125,3 +125,28 @@ export async function getEventsForUserWindow(
   await upsertEventsToDb(user.id, googleEvents);
   return googleEvents;
 }
+
+export async function createEventForUser(user: IUser, payload: { summary: string; start: string; end: string }) {
+  const oAuth2Client = createOAuth2Client();
+  oAuth2Client.setCredentials({
+    access_token: user.accessToken || undefined,
+    refresh_token: user.refreshToken || undefined,
+  });
+
+  const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
+
+  const resource: any = {
+    summary: payload.summary,
+    start: { dateTime: payload.start },
+    end: { dateTime: payload.end },
+  };
+
+  const resp = await calendar.events.insert({
+    calendarId: 'primary',
+    requestBody: resource,
+  });
+
+  const event = resp.data;
+
+  return event;
+}

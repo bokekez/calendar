@@ -18,6 +18,8 @@ export function getAuthUrl() {
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "https://www.googleapis.com/auth/calendar.readonly",
+    'https://www.googleapis.com/auth/calendar.events', 
+    'https://www.googleapis.com/auth/calendar.readonly',
   ];
   return oAuth2Client.generateAuthUrl({
     access_type: "offline",
