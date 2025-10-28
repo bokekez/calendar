@@ -16,23 +16,33 @@ Before running the app, make sure you have:
 
 **Clone the repository locally:**
 
-git clone <repository-url>
+```bash
+git clone git@github.com:bokekez/calendar.git
+```
 
 **Open the app in the termial:**
 
+```bash
 cd calendar
+```
 
 Add your .env file to the backend folder. The folder structure should look like this:
 
 calendar/
+
 ├─ backend/
+
 │  ├─ Dockerfile
+
 │  ├─ package.json
+
 │  └─ .env
 
 Start the application using Docker Compose:
 
+```bash
 docker-compose up --build
+```
 
 This command will install all dependencies and start both the backend and frontend services.
 
