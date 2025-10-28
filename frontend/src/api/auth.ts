@@ -19,8 +19,19 @@ export async function fetchWithCredentials<T = any>(url: string, opts: RequestIn
   return content as T;
 }
 
-// export type MeResponse = { user?: { id: string; email?: string; name?: string } };
+export const loginWithGoogle = () => {
+  window.location.href = `${API}/auth/google`;
+};
 
 export async function getMe(): Promise<User> {
   return fetchWithCredentials<User>(`${API}/auth/me`);
 }
+
+export const logout = async () => {
+  const res = await fetch(`${API}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('Failed to log out');
+  return res;
+};

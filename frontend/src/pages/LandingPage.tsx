@@ -1,11 +1,8 @@
 import React from 'react';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
+import { loginWithGoogle } from '../api/auth';
 
 export default function LandingPage() {
-  const handleLogin = () => {
-    window.location.href = 'http://localhost:4000/auth/google';
-  };
-
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Row className="w-100">
@@ -16,7 +13,7 @@ export default function LandingPage() {
               <Card.Text className="mb-4">
                 Please authenticate with Google to connect your calendar and continue.
               </Card.Text>
-              <Button onClick={handleLogin} variant="primary" size="lg">
+              <Button onClick={loginWithGoogle} variant="primary" size="lg">
                 Authenticate with Google
               </Button>
             </Card.Body>

@@ -1,22 +1,31 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import { Table, Column, Model, DataType, PrimaryKey, HasMany, Default } from 'sequelize-typescript';
+import UserCalendarEvent from './UserCalendarEvent';
 
-@Table({ tableName: "users" })
+@Table({ tableName: 'users' })
 export default class User extends Model {
-  @Column({ primaryKey: true })
+  @PrimaryKey
+  @Column(DataType.STRING)
   id!: string;
 
-  @Column
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false
+  })
   email!: string;
 
-  @Column
-  name!: string;
+  @Column(DataType.STRING)
+  name?: string;
 
-  @Column
-  accessToken!: string;
+  @Column(DataType.TEXT)
+  accessToken?: string;
 
-  @Column
-  refreshToken!: string;
+  @Column(DataType.TEXT)
+  refreshToken?: string;
 
   @Column(DataType.DATE)
   tokenExpiry?: Date;
+
+  @HasMany(() => UserCalendarEvent)
+  calendarEvents?: UserCalendarEvent[];
 }
