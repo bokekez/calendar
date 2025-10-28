@@ -1,14 +1,17 @@
-import { API } from '../constants/constants';
-import { User } from '../types/user';
+import { API } from "../constants/constants";
+import { User } from "../types/user";
 
-export async function fetchWithCredentials<T = any>(url: string, opts: RequestInit = {}): Promise<T> {
+export async function fetchWithCredentials<T = any>(
+  url: string,
+  opts: RequestInit = {},
+): Promise<T> {
   const res = await fetch(url, {
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    credentials: "include",
+    headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
     ...opts,
   });
 
-  const text = await res.text().catch(() => '');
+  const text = await res.text().catch(() => "");
   const content = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
@@ -29,9 +32,9 @@ export async function getMe(): Promise<User> {
 
 export const logout = async () => {
   const res = await fetch(`${API}/auth/logout`, {
-    method: 'POST',
-    credentials: 'include',
+    method: "POST",
+    credentials: "include",
   });
-  if (!res.ok) throw new Error('Failed to log out');
+  if (!res.ok) throw new Error("Failed to log out");
   return res;
 };

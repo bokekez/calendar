@@ -1,6 +1,6 @@
-import React from 'react';
-import { Container, Button, Row, Col, Card } from 'react-bootstrap';
-import { loginWithGoogle } from '../api/authApi';
+import React from "react";
+import { Container, Button, Row, Col, Card } from "react-bootstrap";
+import { loginWithGoogle } from "../api/authApi";
 
 export default function LandingPage() {
   return (
@@ -11,7 +11,8 @@ export default function LandingPage() {
             <Card.Body>
               <Card.Title className="mb-3">Speck</Card.Title>
               <Card.Text className="mb-4">
-                Please authenticate with Google to connect your calendar and continue.
+                Please authenticate with Google to connect your calendar and
+                continue.
               </Card.Text>
               <Button onClick={loginWithGoogle} variant="primary" size="lg">
                 Authenticate with Google

@@ -1,8 +1,18 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo, PrimaryKey, Default, Index } from 'sequelize-typescript';
-import User from './User';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  PrimaryKey,
+  Default,
+  Index,
+} from "sequelize-typescript";
+import User from "./User";
+import { v4 as uuidv4 } from "uuid";
 
-@Table({ tableName: 'user_calendar_events', timestamps: true })
+@Table({ tableName: "user_calendar_events", timestamps: true })
 export default class UserCalendarEvent extends Model {
   @PrimaryKey
   @Default(uuidv4)
@@ -29,7 +39,7 @@ export default class UserCalendarEvent extends Model {
     type: DataType.STRING,
     allowNull: true,
   })
-  summary?: string; 
+  summary?: string;
 
   @Column({
     type: DataType.DATE,

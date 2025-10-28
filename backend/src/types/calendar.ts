@@ -4,4 +4,4 @@ export interface SimpleEvent {
   start?: string | null;
   end?: string | null;
   raw?: any;
-};
+}

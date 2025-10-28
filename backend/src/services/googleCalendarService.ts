@@ -1,24 +1,29 @@
-import { google, calendar_v3 } from 'googleapis';
-import { createOAuth2Client } from './googleClient';
-import UserCalendarEvent from '../database/models/UserCalendarEvent';
-import { Op } from 'sequelize';
-import { SimpleEvent } from '../types/calendar';
-import { IUser } from '../types/user';
+import { google, calendar_v3 } from "googleapis";
+import { createOAuth2Client } from "./googleClient";
+import UserCalendarEvent from "../database/models/UserCalendarEvent";
+import { Op } from "sequelize";
+import { SimpleEvent } from "../types/calendar";
+import { IUser } from "../types/user";
 
 function windowRangeDays(days: number) {
   const now = new Date();
   const from = new Date(now);
-  from.setHours(0, 0, 0, 0); 
+  from.setHours(0, 0, 0, 0);
   const to = new Date(now);
   to.setDate(to.getDate() + days);
-  to.setHours(23, 59, 59, 999); 
-  return { from: from.toISOString(), to: to.toISOString(), fromDate: from, toDate: to };
+  to.setHours(23, 59, 59, 999);
+  return {
+    from: from.toISOString(),
+    to: to.toISOString(),
+    fromDate: from,
+    toDate: to,
+  };
 }
 
 export async function fetchEventsFromGoogleWindow(
   user: IUser,
   fromIso: string,
-  toIso: string
+  toIso: string,
 ): Promise<SimpleEvent[]> {
   const oAuth2Client = createOAuth2Client();
   oAuth2Client.setCredentials({
@@ -26,17 +31,17 @@ export async function fetchEventsFromGoogleWindow(
     refresh_token: user.refreshToken || undefined,
   });
 
-  const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
+  const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
   const events: SimpleEvent[] = [];
   let pageToken: string | undefined = undefined;
 
   do {
-    const listResponse = await calendar.events.list({
-      calendarId: 'primary',
+    const listResponse: any = await calendar.events.list({
+      calendarId: "primary",
       timeMin: fromIso,
       timeMax: toIso,
       singleEvents: true,
-      orderBy: 'startTime',
+      orderBy: "startTime",
       maxResults: 250,
       pageToken,
     });
@@ -67,14 +72,14 @@ export async function upsertEventsToDb(userId: string, events: SimpleEvent[]) {
 
   const existingEvents = await UserCalendarEvent.findAll({
     where: { userId },
-    attributes: ['googleEventId'],
+    attributes: ["googleEventId"],
   });
-  const existingIds = new Set(existingEvents.map(e => e.googleEventId));
+  const existingIds = new Set(existingEvents.map((e) => e.googleEventId));
 
-  const newEvents = events.filter(e => !existingIds.has(e.id));
+  const newEvents = events.filter((e) => !existingIds.has(e.id));
   if (newEvents.length === 0) return;
 
-  const rows = newEvents.map(e => ({
+  const rows = newEvents.map((e) => ({
     userId,
     googleEventId: e.id,
     summary: e.summary ?? null,
@@ -88,7 +93,10 @@ export async function upsertEventsToDb(userId: string, events: SimpleEvent[]) {
   await UserCalendarEvent.bulkCreate(rows);
 }
 
-export async function getEventsForUserWindow(user: IUser, days: number): Promise<SimpleEvent[]> {
+export async function getEventsForUserWindow(
+  user: IUser,
+  days: number,
+): Promise<SimpleEvent[]> {
   const { from, to, fromDate, toDate } = windowRangeDays(days);
 
   const dbEvents = await UserCalendarEvent.findAll({
@@ -96,16 +104,20 @@ export async function getEventsForUserWindow(user: IUser, days: number): Promise
       userId: user.id,
       startDateTime: { [Op.gte]: fromDate, [Op.lte]: toDate },
     },
-    order: [['startDateTime', 'ASC']],
-    attributes: ['googleEventId', 'summary', 'startDateTime', 'endDateTime'],
+    order: [["startDateTime", "ASC"]],
+    attributes: ["googleEventId", "summary", "startDateTime", "endDateTime"],
   });
 
   if (dbEvents && dbEvents.length > 0) {
-    return dbEvents.map(e => ({
-      id: e.getDataValue('googleEventId'),
-      summary: e.getDataValue('summary'),
-      start: e.getDataValue('startDateTime') ? new Date(e.getDataValue('startDateTime')).toISOString() : null,
-      end: e.getDataValue('endDateTime') ? new Date(e.getDataValue('endDateTime')).toISOString() : null,
+    return dbEvents.map((e) => ({
+      id: e.getDataValue("googleEventId"),
+      summary: e.getDataValue("summary"),
+      start: e.getDataValue("startDateTime")
+        ? new Date(e.getDataValue("startDateTime")).toISOString()
+        : null,
+      end: e.getDataValue("endDateTime")
+        ? new Date(e.getDataValue("endDateTime")).toISOString()
+        : null,
     }));
   }
 

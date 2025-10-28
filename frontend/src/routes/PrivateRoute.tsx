@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router-dom';
-import { JSX, useEffect, useState } from 'react';
-import { getMe } from '../api/authApi';
+import { Navigate } from "react-router-dom";
+import { JSX, useEffect, useState } from "react";
+import { getMe } from "../api/authApi";
 
 interface Props {
   children: JSX.Element;
