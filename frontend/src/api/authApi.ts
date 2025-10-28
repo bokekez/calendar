@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API_URL
+import { API } from '../constants/constants';
 import { User } from '../types/user';
 
 export async function fetchWithCredentials<T = any>(url: string, opts: RequestInit = {}): Promise<T> {

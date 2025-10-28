@@ -9,16 +9,24 @@
     "backend"
   ],
   "scripts": {
-  "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
-  "start:backend": "npm run dev --workspace=backend",
-  "start:frontend": "npm run dev --workspace=frontend",
-  "build": "npm run build --workspace=backend && npm run build --workspace=frontend"
-},
+    "install:all": "npm install",
+    "dev": "concurrently \"npm --workspace backend run dev\" \"npm --workspace frontend run dev\"",
+    "dev:docker": "docker-compose up --build",
+    "down": "docker-compose down",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.38.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1"
   }
 }

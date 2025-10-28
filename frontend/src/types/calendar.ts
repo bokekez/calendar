@@ -12,3 +12,9 @@ export interface CalendarEvent {
   end?: CalendarDateTime;
   htmlLink?: string;
 }
+
+export type CalendarGroups = {
+  key: string;
+  label: string;
+  events: CalendarEvent[];
+};

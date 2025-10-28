@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
-import { loginWithGoogle } from '../api/auth';
+import { loginWithGoogle } from '../api/authApi';
 
 export default function LandingPage() {
   return (
