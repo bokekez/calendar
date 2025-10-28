@@ -6,9 +6,7 @@ services:
     container_name: speck_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: speckdb
+      - ./backend/.env
     ports:
       - "55432:5432"
     volumes:
